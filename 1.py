@@ -4,8 +4,6 @@ import password
 bot = telebot.TeleBot(token=password.token)
 
 
-global flag 
-
 flag = True
 
 @bot.message_handler(content_types=['text']) #слушаем бота
