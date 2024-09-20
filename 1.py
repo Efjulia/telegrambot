@@ -1,6 +1,7 @@
 import telebot;
+import password
 
-bot = telebot.TeleBot(token='7976932364:AAFEqk0224G30XpGg8176rTSZd-Md5M7xD8')
+bot = telebot.TeleBot(token=password.token)
 
 
 global flag 
