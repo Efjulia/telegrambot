@@ -40,7 +40,6 @@ def make_keyboard(n):
 
 
 
-
 @bot.callback_query_handler(func=lambda call: True)
 def handler_call(call):
     global age, keyboard, keyboard_variant, answer_bot, answer_user
@@ -52,24 +51,24 @@ def handler_call(call):
         case "НетПривет":
             bot.send_message(call.message.chat.id, 'Очень жаль! Если захочешь начать общение заново нажми на /start')
         case "ДаИгра": #call.data это callback_data, которую мы указали при объявлении кнопки
-            bot.send_message(call.message.chat.id, 'Начинаем?')
+            bot.send_message(call.message.chat.id, 'Для продолжения нажми любую клавишу....')
             bot.register_next_step_handler(call.message, get_answer)
         case "НетИгра":
             bot.send_message(call.message.chat.id, 'Очень жаль! Если захочешь начать общение заново нажми на /start')
         case "Камень":
             answer_user = call.data.lower()
             text_otvet = otvet(answer_user, answer_bot)
-            bot.send_message(call.message.chat.id, f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet} Продолжаем?')
+            bot.send_message(call.message.chat.id, f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet} Для продолжения нажми любую клавишу...')
             bot.register_next_step_handler(call.message, get_answer)  
         case "Ножницы":
             answer_user = call.data.lower()
             text_otvet = otvet(answer_user, answer_bot)
-            bot.send_message(call.message.chat.id, f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet} Продолжаем?')
+            bot.send_message(call.message.chat.id, f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet} Для продолжения нажми любую клавишу...')
             bot.register_next_step_handler(call.message, get_answer)  
         case "Бумага":
             answer_user = call.data.lower()
             text_otvet = otvet(answer_user, answer_bot)
-            bot.send_message(call.message.chat.id, f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet} Продолжаем?')
+            bot.send_message(call.message.chat.id, f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet} Для продолжения нажми любую клавишу....')
             bot.register_next_step_handler(call.message, get_answer)  
 
         
@@ -78,6 +77,10 @@ def handler_call(call):
 def start(message):
     make_keyboard(1)
     bot.send_message(message.from_user.id, f'Привет, {message.from_user.username}! познакомимся?', reply_markup=keyboard)
+
+@bot.message_handler(commands=['stop'])
+def end(message):
+    bot.send_message(message.from_user.id, "/start - чтобы начать сначала ")
             
 def get_name(message):
     global name
@@ -90,9 +93,9 @@ def get_answer(message):
     global answer_bot
     make_keyboard(3)
     answer_list_bot = ['камень', 'ножницы', 'бумага']
-    random.shuffle(answer_list)
+    random.shuffle(answer_list_bot)
     answer_bot = random.choice(answer_list_bot)
-    bot.send_message(message.from_user.id, f'{name}, выбирай вариант?', reply_markup=keyboard_variant)
+    bot.send_message(message.from_user.id, f'{name}, выбирай вариант? Для остановки выбери /stop', reply_markup=keyboard_variant)
     print(answer_bot)
 
 
