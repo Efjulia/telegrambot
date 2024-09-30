@@ -36,7 +36,7 @@ async def process_callback_button(callback_query: types.CallbackQuery):
 
 
 @dp.message_handler()
-async def text_message(message: types.Message)
+async def text_message(message: types.Message):
     global fl
     global name
     match fl:
@@ -58,4 +58,4 @@ async def text_message(message: types.Message)
 
 
 if __name__=='__main__':
-    executor.o
+    executor.start_polling(dp)
