@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, types, executor
 from dotenv import load_dotenv #сначала надо импортировать pip install python-dotenv
 import os
 import random
+import sqlite3
 
 
 load_dotenv()
