@@ -50,7 +50,9 @@ async def start(message: types.Message):
 async def process_callback_button(callback_query: types.CallbackQuery): #название функции любое!
     global fl
     make_keyboard(2)
-    await callback_query.answer('Вы нажали кнопку да')
+    #await callback_query.answer('Вы нажали кнопку да')
+    await callback_query.message.answer('Приятно познакомиться, ' + callback_query.from_user.first_name)
+
     await callback_query.message.answer('Играем?', reply_markup=keyboard_answer)
 
 
