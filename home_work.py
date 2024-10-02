@@ -13,7 +13,11 @@ dp =Dispatcher(bot)
 fl = 0
 name = ''
 answer_list = ['камень', 'ножницы', 'бумага']
-
+spisok_otvetov = {('камень', 'ножницы'): 'Камень бьет ножницы!',
+                  ('камень', 'бумага'): 'Бумага кроет камень!',
+                  ('ножницы', 'бумага'): 'Ножницы режут бумагу!'
+}
+            
 
 def make_keyboard(n):
     global keyboard, keyboard_variant     
@@ -77,31 +81,12 @@ async def process_callback_button(callback_query: types.CallbackQuery): #наз�
     answer_user = callback_query.data.lower()
     answer_bot = get_answer()
     text_otvet = otvet(answer_user, answer_bot)
+    text_long_otvet = get_long_otvet(answer_user, answer_bot)
     make_keyboard(3)
     fl = 1
-    await callback_query.message.answer(f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_otvet}')
+    await callback_query.message.answer(f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_long_otvet} {text_otvet}')
     await callback_query.message.answer('Твой выбор?', reply_markup=keyboard_variant)
 
-
-@dp.message_handler()
-async def text_message(message: types.Message):
-    global fl
-    global name
-    match fl:
-        case 1:
-            await message.answer('Как тебя зовут?')
-            fl = 2
-        case 2:
-            name = message.text
-            await message.answer(f'{name}, сколько тебе лет?')
-            fl = 3
-        case 3:
-            try:
-                age = int(message.text)
-                await message.answer(f'{name}, ты родился в {2024 - age} году')
-                fl = 1
-            except Exception:
-                await message.answer(f'{name}, введи число')
 
 
 def get_answer():
@@ -109,6 +94,12 @@ def get_answer():
     random.shuffle(answer_list_bot)
     answer_bot = random.choice(answer_list_bot)
     return answer_bot
+
+def get_long_otvet(a, b):
+    for key, value in spisok_otvetov.items():
+        if (a == key[0] and b == key[1]) or (a == key[1] and b == key[0] ):
+            return value
+    return ''
 
 def otvet(an, bn):
     a = answer_list.index(an)
