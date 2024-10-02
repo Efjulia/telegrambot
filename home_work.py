@@ -68,10 +68,7 @@ async def process_callback_button(callback_query: types.CallbackQuery):
 
 @dp.callback_query_handler(lambda c: c.data == 'ДаИгра')
 async def process_callback_button(callback_query: types.CallbackQuery): #название функции любое!
-    global fl
     make_keyboard(3)
-    await callback_query.answer('Вы нажали кнопку да')
-    fl = 1
     await callback_query.message.answer('Твой выбор?', reply_markup=keyboard_variant)
 
 
@@ -83,8 +80,7 @@ async def process_callback_button(callback_query: types.CallbackQuery): #наз�
     text_otvet = otvet(answer_user, answer_bot)
     text_long_otvet = get_long_otvet(answer_user, answer_bot)
     make_keyboard(3)
-    fl = 1
-    await callback_query.message.answer(f'Ваш ответ {answer_user}, а ответ бота {answer_bot}. {text_long_otvet} {text_otvet}')
+    await callback_query.message.answer(f'Ваш ответ "{answer_user}", а ответ бота "{answer_bot}". {text_long_otvet} {text_otvet}')
     await callback_query.message.answer('Твой выбор?', reply_markup=keyboard_variant)
 
 
